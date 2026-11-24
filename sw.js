@@ -1,5 +1,5 @@
 /* Cihan Metal Pro offline shell + automatic version refresh */
-const CACHE_NAME = 'cihan-metal-v9-15';
+const CACHE_NAME = 'cihan-metal-v9-20';
 const APP_FILES = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)));
@@ -20,7 +20,7 @@ self.addEventListener('fetch', event => {
   if (req.mode === 'navigate') {
     event.respondWith((async () => {
       try {
-        const fresh = await fetch(req);
+        const fresh = await fetch(req, { cache: 'no-store' });
         if (fresh && fresh.ok) {
           const cache = await caches.open(CACHE_NAME);
           cache.put('./index.html', fresh.clone());
